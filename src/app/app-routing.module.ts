@@ -4,8 +4,8 @@ import { DepartamentoComponent } from './components/departamento/departamento.co
 import { TrabajadorComponent } from './components/trabajador/trabajador.component';
 
 const routes: Routes = [
-  { path: 'departamento', component: TrabajadorComponent }, 
-  { path: '', redirectTo: 'departamento', pathMatch: 'full' }, 
+  { path: 'Trabajador', component: TrabajadorComponent }, 
+  { path: '', redirectTo: 'Trabajador', pathMatch: 'full' }, 
 ];
 
 @NgModule({

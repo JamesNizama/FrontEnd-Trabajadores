@@ -23,6 +23,10 @@ export class TrabajadorComponent implements OnInit {
   provinciasFiltradas: Provincia[] = [];
   distritosFiltrados: Distrito[] = [];
 
+  trabajadorPaginado: Trabajador[] = [];
+  paginaActual = 1;
+  itemsPorPagina = 5;
+
   trabajadorForm: Trabajador = {
     id: 0,
     tipoDocumento: '',
@@ -62,11 +66,43 @@ export class TrabajadorComponent implements OnInit {
     this.distritosFiltrados = [];
   }
 
+  totalPaginas(): number[] {
+    const total = Math.ceil(this.trabajador.length / this.itemsPorPagina);
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+
+
+  paginarTrabajadores(): void {
+    const inicio = (this.paginaActual - 1) * this.itemsPorPagina;
+    const fin = inicio + this.itemsPorPagina;
+    this.trabajadorPaginado = this.trabajador.slice(inicio, fin);
+  }
+
+  cambiarPagina(pagina: number): void {
+    this.paginaActual = pagina;
+    this.paginarTrabajadores();
+  }
+
+  getNombreDepartamento(id: number): string {
+    const depto = this.departamento.find(d => d.id === id);
+    return depto ? depto.nombreDepartamento : '';
+  }
+
+  getNombreProvincia(id: number): string {
+    const prov = this.provincia.find(p => p.id === id);
+    return prov ? prov.nombreProvincia : '';
+  }
+
+  getNombreDistrito(id: number): string {
+    const dist = this.distrito.find(d => d.id === id);
+    return dist ? dist.nombreDistrito : '';
+  }
+
   obtenerTrabajadores(): void {
     this.trabajadorService.getTrabajadores().subscribe({
       next: (data) => {
         this.trabajador = data;
-        console.log("Trabajadores obtenidos:", data);
+        this.paginarTrabajadores();
       },
       error: (err) => {
         console.error('Error al obtener trabajadores:', err);
@@ -78,7 +114,6 @@ export class TrabajadorComponent implements OnInit {
     this.departamentoService.getDepartamentos().subscribe({
       next: (data) => {
         this.departamento = data;
-        //console.log("Departamentos obtenidos:", data);
       },
       error: (err) => {
         console.error('Error al obtener departamentos:', err);
@@ -90,7 +125,6 @@ export class TrabajadorComponent implements OnInit {
     this.provinciaService.getProvincias().subscribe({
       next: (data) => {
         this.provincia = data;
-        //console.log("Provincias obtenidas:", data);
       },
       error: (err) => {
         console.error('Error al obtener provincias:', err);
@@ -102,7 +136,6 @@ export class TrabajadorComponent implements OnInit {
     this.distritoService.getDistritos().subscribe({
       next: (data) => {
         this.distrito = data;
-        //console.log("Distritos obtenidos:", data);
       },
       error: (err) => {
         console.error('Error al obtener distritos:', err);
@@ -145,7 +178,7 @@ export class TrabajadorComponent implements OnInit {
         title: 'Campos requeridos',
         text: 'Por favor complete los campos obligatorios.',
         icon: 'warning',
-        timer: 1000,
+        timer: 2000,
         showConfirmButton: false
       });
       return;
@@ -153,7 +186,6 @@ export class TrabajadorComponent implements OnInit {
 
     this.trabajadorService.crearTrabajador(this.trabajadorForm).subscribe({
       next: (res) => {
-        console.log("Trabajador registrado:", res);
         this.obtenerTrabajadores();
         this.resetForm();
 
@@ -170,7 +202,7 @@ export class TrabajadorComponent implements OnInit {
           title: 'Registrado',
           text: 'El trabajador ha sido registrado exitosamente.',
           icon: 'success',
-          timer: 1000,
+          timer: 2000,
           showConfirmButton: false
         });
       },
@@ -195,7 +227,7 @@ export class TrabajadorComponent implements OnInit {
         title: 'Campos requeridos',
         text: 'Por favor complete los campos obligatorios.',
         icon: 'warning',
-        timer: 1000,
+        timer: 2000,
         showConfirmButton: false
       });
       return;
@@ -203,7 +235,6 @@ export class TrabajadorComponent implements OnInit {
 
     this.trabajadorService.actualizarTrabajador(this.trabajadorForm).subscribe({
       next: (res) => {
-        console.log("Trabajador actualizado:", res);
         this.obtenerTrabajadores();
         this.resetForm();
 
@@ -220,7 +251,7 @@ export class TrabajadorComponent implements OnInit {
           title: 'Actualizado',
           text: 'El trabajador ha sido actualizado exitosamente.',
           icon: 'success',
-          timer: 1000,
+          timer: 2000,
           showConfirmButton: false
         });
       },
@@ -230,13 +261,14 @@ export class TrabajadorComponent implements OnInit {
           title: 'Error',
           text: 'Ocurrió un error al actualizar el trabajador.',
           icon: 'error',
-          timer: 1000,
+          timer: 2000,
           showConfirmButton: false
         });
       }
     });
   }
-  eliminarTrabajador(id: number): void {
+
+  eliminarTrabajador(trabajador: Trabajador): void {
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'Esta acción eliminará al trabajador de forma permanente.',
@@ -248,7 +280,7 @@ export class TrabajadorComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.trabajadorService.eliminarTrabajador(id).subscribe({
+        this.trabajadorService.eliminarTrabajador(trabajador).subscribe({
           next: () => {
             this.obtenerTrabajadores();
             Swal.fire({

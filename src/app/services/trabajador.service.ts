@@ -9,7 +9,7 @@ import { Trabajador } from '../models/trabajador';
 export class TrabajadorService {
   private readonly baseUrl = 'https://localhost:7051/api/Trabajador';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getTrabajadores(): Observable<Trabajador[]> {
     return this.http.get<Trabajador[]>(`${this.baseUrl}/listar`);
@@ -23,7 +23,10 @@ export class TrabajadorService {
     return this.http.put(`${this.baseUrl}/actualizar`, trabajador);
   }
 
-  eliminarTrabajador(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/eliminar/${id}`);
+  eliminarTrabajador(trabajador: Trabajador): Observable<any> {
+    return this.http.request('delete', `${this.baseUrl}/eliminar`, {
+      body: trabajador
+    });
   }
+
 }

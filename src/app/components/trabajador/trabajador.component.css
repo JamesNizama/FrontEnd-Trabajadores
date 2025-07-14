@@ -1,20 +1,62 @@
 .btn-nuevo {
-  background-color: #0d6efd;
+  background-color: #003366;
   color: white;
-  font-weight: 500;
+  font-weight: 600;
   padding: 10px 24px;
   font-size: 15px;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-nuevo:hover {
-  background-color: #0b5ed7;
-  box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+  background-color: #002244;
+  box-shadow: 0 4px 10px rgba(0, 51, 102, 0.3);
+  cursor: pointer;
+}
+
+.card-header.bg-primary {
+  background-color: #003366 !important;
+}
+
+.table thead.table-dark {
+  background-color: #002244 !important;
+  color: #ffffff;
+}
+
+.btn-outline-warning {
+  border-color: #ffcc00;
+  color: #ffcc00;
+}
+
+.btn-outline-warning:hover {
+  background-color: #ffcc00;
+  color: #002244;
+}
+
+.btn-outline-danger {
+  border-color: #e74c3c;
+  color: #e74c3c;
+}
+
+.btn-outline-danger:hover {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.modal-header.bg-primary {
+  background-color: #003366 !important;
+  color: white;
+}
+
+.modal-header.bg-warning {
+  background-color: #ffcc00 !important;
+  color: #002244;
 }
 
 .table th,
 .table td {
   vertical-align: middle;
 }
+
+
