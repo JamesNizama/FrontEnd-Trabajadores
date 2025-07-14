@@ -25,7 +25,7 @@ export class TrabajadorComponent implements OnInit {
 
   trabajadorPaginado: Trabajador[] = [];
   paginaActual = 1;
-  itemsPorPagina = 5;
+  itemsPorPagina = 10;
 
   trabajadorForm: Trabajador = {
     id: 0,
@@ -103,6 +103,8 @@ export class TrabajadorComponent implements OnInit {
       next: (data) => {
         this.trabajador = data;
         this.paginarTrabajadores();
+        console.log('Sexo de cada trabajador:', this.trabajador.map(t => t.sexo));
+
       },
       error: (err) => {
         console.error('Error al obtener trabajadores:', err);

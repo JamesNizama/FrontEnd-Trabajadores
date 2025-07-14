@@ -15,13 +15,25 @@
   cursor: pointer;
 }
 
-.card-header.bg-primary {
+.card-header.bg-primary,
+.modal-header.bg-primary {
   background-color: #003366 !important;
+  color: white;
+}
+
+.modal-header.bg-warning {
+  background-color: #ffcc00 !important;
+  color: #002244;
 }
 
 .table thead.table-dark {
   background-color: #002244 !important;
   color: #ffffff;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
 }
 
 .btn-outline-warning {
@@ -44,19 +56,20 @@
   color: white;
 }
 
-.modal-header.bg-primary {
-  background-color: #003366 !important;
-  color: white;
+table tr.fila-masculino td {
+  background-color: #cce5ff !important; 
+  color: #003366 !important; 
 }
 
-.modal-header.bg-warning {
-  background-color: #ffcc00 !important;
-  color: #002244;
+.table-hover tbody tr.fila-masculino:hover td {
+  background-color: #b8daff !important; 
 }
 
-.table th,
-.table td {
-  vertical-align: middle;
+table tr.fila-femenino td {
+  background-color: #ffe5cc !important; 
+  color: #663300 !important;
 }
 
-
+.table-hover tbody tr.fila-femenino:hover td {
+  background-color: #ffd1a3 !important;
+}

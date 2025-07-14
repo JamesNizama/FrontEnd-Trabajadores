@@ -26,8 +26,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of trabajadorPaginado" [class.fila-masculino]="item.sexo === 'M'"
-                            [class.fila-femenino]="item.sexo === 'F'">
+                        <tr *ngFor="let item of trabajadorPaginado" [ngClass]="{
+                        'fila-masculino': item.sexo === 'M',
+                        'fila-femenino': item.sexo === 'F'
+                     }">
                             <td>{{ item.tipoDocumento }}</td>
                             <td>{{ item.numeroDocumento }}</td>
                             <td>{{ item.nombres }}</td>
