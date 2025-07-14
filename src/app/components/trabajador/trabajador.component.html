@@ -1,0 +1,229 @@
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white  text-center">
+            <h2 class="mb-0">Lista de Trabajadores</h2>
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex  mb-3">
+                <button class="btn-nuevo" data-bs-toggle="modal" data-bs-target="#modalTrabajador">
+                    Nuevo Registro
+                </button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Tipo Documento</th>
+                            <th>Nro Documento</th>
+                            <th>Nombres</th>
+                            <th>Sexo</th>
+                            <th>Departamento</th>
+                            <th>Provincia</th>
+                            <th>Distrito</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of trabajador">
+                            <td>{{ item.tipoDocumento }}</td>
+                            <td>{{ item.numeroDocumento }}</td>
+                            <td>{{ item.nombres }}</td>
+                            <td>{{ item.sexo }}</td>
+                            <td>{{ item.idDepartamento }}</td>
+                            <td>{{ item.idDistrito }}</td>
+                            <td>{{ item.idProvincia }}</td>
+                            <td>
+                                <button class="btn btn-outline-warning btn-sm me-1" data-bs-toggle="modal"
+                                    data-bs-target="#modalEditarTrabajador" (click)="abrirModalEditar(item)">
+                                    Editar
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" (click)="eliminarTrabajador(item.id)">
+                                    Eliminar
+                                </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <nav aria-label="Paginación">
+                <ul class="pagination justify-content-center mt-3">
+                    <li class="page-item disabled"><a class="page-link">Anterior</a></li>
+                    <li class="page-item active"><a class="page-link">1</a></li>
+                    <li class="page-item"><a class="page-link">2</a></li>
+                    <li class="page-item"><a class="page-link">3</a></li>
+                    <li class="page-item"><a class="page-link">Siguiente</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalTrabajador" tabindex="-1" aria-labelledby="modalTrabajadorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- modal-lg para más espacio -->
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalTrabajadorLabel">Registrar Trabajador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario de registro -->
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Tipo Documento</label>
+                            <select class="form-select" name="tipoDocumento" [(ngModel)]="trabajadorForm.tipoDocumento">
+                                <option value="">Seleccione</option>
+                                <option value="DNI">DNI</option>
+                                <option value="CE">Carné de Extranjería</option>
+                                <option value="PAS">Pasaporte</option>
+                                <option value="PTP">Permiso Temporal de Permanencia</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Nro Documento</label>
+                            <input type="text" class="form-control" name="numeroDocumento"
+                                [(ngModel)]="trabajadorForm.numeroDocumento">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Nombres</label>
+                            <input type="text" class="form-control" name="nombres" [(ngModel)]="trabajadorForm.nombres">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Sexo</label>
+                            <select class="form-select" name="sexo" [(ngModel)]="trabajadorForm.sexo">
+                                <option value="">Seleccione</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Departamento</label>
+                            <select class="form-select" [(ngModel)]="trabajadorForm.idDepartamento" name="departamento"
+                                (change)="filtrarProvincias()">
+                                <option value="">Seleccione</option>
+                                <option *ngFor="let depto of departamento" [value]="depto.id">
+                                    {{ depto.nombreDepartamento }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Provincia</label>
+                            <select class="form-select" [(ngModel)]="trabajadorForm.idProvincia" name="provincia"
+                                (change)="filtrarDistritos()">
+                                <option value="">Seleccione</option>
+                                <option *ngFor="let prov of provinciasFiltradas" [value]="prov.id">
+                                    {{ prov.nombreProvincia }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Distrito</label>
+                            <select class="form-select" [(ngModel)]="trabajadorForm.idDistrito" name="distrito">
+                                <option value="">Seleccione</option>
+                                <option *ngFor="let dist of distritosFiltrados" [value]="dist.id">
+                                    {{ dist.nombreDistrito }}
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-success" (click)="registrarTrabajador()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar -->
+<div class="modal fade" id="modalEditarTrabajador" tabindex="-1" aria-labelledby="modalEditarTrabajadorLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title" id="modalEditarTrabajadorLabel">Editar Trabajador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Tipo Documento</label>
+                            <select class="form-select" [(ngModel)]="trabajadorForm.tipoDocumento" name="tipoDocumento">
+                                <option value="">Seleccione</option>
+                                <option value="DNI">DNI</option>
+                                <option value="CE">Carnet de Extranjería</option>
+                                <option value="PAS">Pasaporte</option>
+                                <option value="PTP">Permiso Temporal</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Nro Documento</label>
+                            <input type="text" class="form-control" [(ngModel)]="trabajadorForm.numeroDocumento"
+                                name="numeroDocumento">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Nombres</label>
+                            <input type="text" class="form-control" [(ngModel)]="trabajadorForm.nombres" name="nombres">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Sexo</label>
+                            <select class="form-select" [(ngModel)]="trabajadorForm.sexo" name="sexo">
+                                <option value="">Seleccione</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Departamento</label>
+                            <select class="form-select" [(ngModel)]="trabajadorForm.idDepartamento" name="departamento"
+                                (change)="filtrarProvincias()">
+                                <option value="">Seleccione</option>
+                                <option *ngFor="let depto of departamento" [value]="depto.id">
+                                    {{ depto.nombreDepartamento }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Provincia</label>
+                            <select class="form-select" [(ngModel)]="trabajadorForm.idProvincia" name="provincia"
+                                (change)="filtrarDistritos()">
+                                <option value="">Seleccione</option>
+                                <option *ngFor="let prov of provinciasFiltradas" [value]="prov.id">
+                                    {{ prov.nombreProvincia }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Distrito</label>
+                            <select class="form-select" [(ngModel)]="trabajadorForm.idDistrito" name="distrito">
+                                <option value="">Seleccione</option>
+                                <option *ngFor="let dist of distritosFiltrados" [value]="dist.id">
+                                    {{ dist.nombreDistrito }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" (click)="actualizarTrabajador()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
