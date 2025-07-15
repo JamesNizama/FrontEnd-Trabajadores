@@ -25,7 +25,7 @@ export class TrabajadorComponent implements OnInit {
 
   trabajadorPaginado: Trabajador[] = [];
   paginaActual = 1;
-  itemsPorPagina = 10;
+  itemsPorPagina = 5;
   filtroSexo: string = '';
 
 
