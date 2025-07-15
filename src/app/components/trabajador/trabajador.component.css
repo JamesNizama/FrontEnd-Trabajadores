@@ -57,19 +57,23 @@
 }
 
 table tr.fila-masculino td {
-  background-color: #cce5ff !important; 
-  color: #003366 !important; 
+  background-color: #cce5ff !important;
+  color: #003366 !important;
 }
 
 .table-hover tbody tr.fila-masculino:hover td {
-  background-color: #b8daff !important; 
+  background-color: #b8daff !important;
 }
 
 table tr.fila-femenino td {
-  background-color: #ffe5cc !important; 
+  background-color: #ffe5cc !important;
   color: #663300 !important;
 }
 
 .table-hover tbody tr.fila-femenino:hover td {
   background-color: #ffd1a3 !important;
+}
+
+.filtro-sexo {
+  margin-left: 20px;
 }

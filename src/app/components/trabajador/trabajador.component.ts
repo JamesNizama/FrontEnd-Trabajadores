@@ -26,6 +26,8 @@ export class TrabajadorComponent implements OnInit {
   trabajadorPaginado: Trabajador[] = [];
   paginaActual = 1;
   itemsPorPagina = 10;
+  filtroSexo: string = '';
+
 
   trabajadorForm: Trabajador = {
     id: 0,
@@ -71,12 +73,23 @@ export class TrabajadorComponent implements OnInit {
     return Array.from({ length: total }, (_, i) => i + 1);
   }
 
+  aplicarFiltro(): void {
+    this.paginaActual = 1;
+    this.paginarTrabajadores();
+  }
 
   paginarTrabajadores(): void {
+    let listaFiltrada = this.trabajador;
+
+    if (this.filtroSexo) {
+      listaFiltrada = listaFiltrada.filter(t => t.sexo === this.filtroSexo);
+    }
+
     const inicio = (this.paginaActual - 1) * this.itemsPorPagina;
     const fin = inicio + this.itemsPorPagina;
-    this.trabajadorPaginado = this.trabajador.slice(inicio, fin);
+    this.trabajadorPaginado = listaFiltrada.slice(inicio, fin);
   }
+
 
   cambiarPagina(pagina: number): void {
     this.paginaActual = pagina;
